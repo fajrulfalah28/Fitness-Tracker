@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FitnessTracker.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitnessTracker&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fitnesstracker</a> &gt; <span class="el_source">FitnessTracker.java</span></div><h1>FitnessTracker.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package fitnesstracker;
+
+import java.text.DecimalFormat;
+import java.util.Scanner;
+
+/**
+ *
+ * @author fajru
+ */
+<span class="nc" id="L15">public class FitnessTracker {</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L21">        clrscr();</span>
+  
+<span class="nc" id="L23">        DecimalFormat numberFormat = new DecimalFormat(&quot;#.00&quot;);</span>
+        
+<span class="nc" id="L25">        Scanner scanner = new Scanner(System.in);</span>
+        
+<span class="nc" id="L27">        System.out.print(&quot;Enter your gender (M/F): &quot;);</span>
+<span class="nc" id="L28">        String gender = scanner.nextLine();</span>
+
+<span class="nc" id="L30">        System.out.print(&quot;Enter your age: &quot;);</span>
+<span class="nc" id="L31">        double age = scanner.nextDouble();</span>
+
+<span class="nc" id="L33">        System.out.print(&quot;Enter your weight (kg): &quot;);</span>
+<span class="nc" id="L34">        double currentWeight = scanner.nextDouble();</span>
+
+<span class="nc" id="L36">        System.out.print(&quot;Enter your height (cm): &quot;);</span>
+<span class="nc" id="L37">        double height = scanner.nextDouble();</span>
+        
+<span class="nc" id="L39">        double currentBMI = calcCurrentBMI(currentWeight, height);</span>
+
+<span class="nc" id="L41">        clrscr();</span>
+        
+<span class="nc" id="L43">        System.out.println(&quot;Your current BMI is: &quot; + numberFormat.format(currentBMI) + &quot;kg/m^2&quot;);</span>
+        
+<span class="nc" id="L45">        String bmiCategory = BMICategory(currentBMI);</span>
+        
+<span class="nc" id="L47">        System.out.println(&quot;You categorized as: &quot; + bmiCategory);</span>
+<span class="nc" id="L48">        System.out.println(&quot;BMI Reference: \n   Severe Thinness: &lt; 16\n   Moderate Thinnes: 16 to 17\n   Mild Thinnes 17 to 18.5\n   Normal: 18.5 to 25\n   Overweight: 25 to 30\n   Obese Class I: 30 to 35\n   Obese Class II: 35 to 40\n   Obese Class III: &gt; 40&quot;);</span>
+
+        
+<span class="nc" id="L51">        System.out.print(&quot;\nPlanning to lower your BMI? (Y/N): &quot;);</span>
+<span class="nc" id="L52">        String planOption = scanner.nextLine();</span>
+<span class="nc" id="L53">        planOption = scanner.nextLine();</span>
+        
+<span class="nc" id="L55">        clrscr();</span>
+        
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (planOption.equals(&quot;Y&quot;))</span>
+        {
+<span class="nc" id="L59">            System.out.println(&quot;Your current BMI is: &quot; + numberFormat.format(currentBMI) + &quot;kg/m^2&quot;);</span>
+<span class="nc" id="L60">            System.out.println(&quot;BMI Reference: \n   Severe Thinness: &lt; 16\n   Moderate Thinnes: 16 to 17\n   Mild Thinnes 17 to 18.5\n   Normal: 18.5 to 25\n   Overweight: 25 to 30\n   Obese Class I: 30 to 35\n   Obese Class II: 35 to 40\n   Obese Class III: &gt; 40&quot;);</span>
+<span class="nc" id="L61">            System.out.print(&quot;\nInput your target BMI: &quot;);</span>
+<span class="nc" id="L62">            double targetBMI = scanner.nextDouble();</span>
+<span class="nc" id="L63">            clrscr();</span>
+<span class="nc" id="L64">            double targetWeight = currentWeight;</span>
+<span class="nc" id="L65">            double bufferBMI = currentBMI;</span>
+            
+<span class="nc" id="L67">            targetWeight = bufferFinder(targetWeight, bufferBMI, targetBMI, height);</span>
+<span class="nc" id="L68">            System.out.println(&quot;Current Weight: &quot; + currentWeight );</span>
+<span class="nc" id="L69">            System.out.println(&quot;Target Weight: &quot; + numberFormat.format(targetWeight) );</span>
+<span class="nc" id="L70">            System.out.println(&quot;To reach your Target BMI, you need to reduce weight of &quot; + numberFormat.format(currentWeight - targetWeight) );</span>
+            
+<span class="nc" id="L72">            System.out.print(&quot;\nTo Reach your target weight, you should be in calorie deficit by reducing your calorie input or increasing your calorie output. \nPlease input your daily calorie intake: &quot; );</span>
+<span class="nc" id="L73">            double currentCalorieIntake = scanner.nextDouble();</span>
+            
+<span class="nc" id="L75">            double currentBMR = currentBMRCalc(gender, currentWeight, height, age);</span>
+<span class="nc" id="L76">            double targetBMR = targetBMRCalc(gender, targetWeight, height, age);</span>
+            
+<span class="nc" id="L78">            System.out.println(&quot;\nActivity level:&quot;);</span>
+<span class="nc" id="L79">            System.out.println(&quot;1. Sedentary (little or no exercise)&quot;);</span>
+<span class="nc" id="L80">            System.out.println(&quot;2. Lightly active (light exercise or sports 1-3 days a week)&quot;);</span>
+<span class="nc" id="L81">            System.out.println(&quot;3. Moderately active (moderate exercise or sports 3-5 days a week)&quot;);</span>
+<span class="nc" id="L82">            System.out.println(&quot;4. Very active (hard exercise or sports 6-7 days a week)&quot;);</span>
+<span class="nc" id="L83">            System.out.println(&quot;5. Super active (very hard exercise or sports, physical job or training twice a day)&quot;);</span>
+
+<span class="nc" id="L85">            System.out.print(&quot;Enter your activity level(1 to 5): &quot;);</span>
+            
+<span class="nc" id="L87">            int activityLevel = scanner.nextInt();</span>
+<span class="nc" id="L88">            currentBMR = activityChoose(currentBMR,activityLevel);</span>
+            
+<span class="nc" id="L90">            clrscr();</span>
+
+<span class="nc" id="L92">            currentRateCalc(currentCalorieIntake, currentBMR, targetBMR);</span>
+            
+<span class="nc" id="L94">            double targetCalorieIntake = currentCalorieIntake;</span>
+<span class="nc" id="L95">            System.out.println(&quot;\nTo be in calorie deficit state, you need to: \n1 reduce calorie intake, \n2 increase activity level, \n3 both.&quot;);</span>
+<span class="nc" id="L96">            System.out.print(&quot;Enter your option: &quot;);</span>
+<span class="nc" id="L97">            short option = scanner.nextShort();</span>
+            
+<span class="nc" id="L99">            double averageBMR = averageBMRCalc(targetBMR, currentBMR);</span>
+<span class="nc" id="L100">            System.out.print(&quot;\nYour BMR on your current activity level is: &quot;+numberFormat.format(currentBMR));</span>
+<span class="nc bnc" id="L101" title="All 4 branches missed.">            switch(option){</span>
+                case 1:
+<span class="nc" id="L103">                    System.out.print(&quot;\nTo Reach your target weight, you should be in calorie deficit by reducing your calorie input or increasing your calorie output. \nPlease input your daily calorie intake: &quot; );</span>
+<span class="nc" id="L104">                    targetCalorieIntake = scanner.nextDouble();</span>
+<span class="nc" id="L105">                    break;</span>
+                case 2:
+<span class="nc" id="L107">                    System.out.println(&quot;\nActivity level:&quot;);</span>
+<span class="nc" id="L108">                    System.out.println(&quot;1. Sedentary (little or no exercise)&quot;);</span>
+<span class="nc" id="L109">                    System.out.println(&quot;2. Lightly active (light exercise or sports 1-3 days a week)&quot;);</span>
+<span class="nc" id="L110">                    System.out.println(&quot;3. Moderately active (moderate exercise or sports 3-5 days a week)&quot;);</span>
+<span class="nc" id="L111">                    System.out.println(&quot;4. Very active (hard exercise or sports 6-7 days a week)&quot;);</span>
+<span class="nc" id="L112">                    System.out.println(&quot;5. Super active (very hard exercise or sports, physical job or training twice a day)&quot;);</span>
+
+<span class="nc" id="L114">                    System.out.print(&quot;Enter your activity level(1 to 5): &quot;);</span>
+<span class="nc" id="L115">                    activityLevel = scanner.nextInt();</span>
+<span class="nc" id="L116">                    targetBMR = activityChoose2(targetBMR,activityLevel);</span>
+<span class="nc" id="L117">                    break;</span>
+                case 3:
+<span class="nc" id="L119">                    System.out.print(&quot;\nTo Reach your target weight, you should be in calorie deficit by reducing your calorie input or increasing your calorie output. \nPlease input your daily calorie intake: &quot; );</span>
+<span class="nc" id="L120">                    targetCalorieIntake = scanner.nextDouble();</span>
+<span class="nc" id="L121">                    System.out.println(&quot;\nActivity level:&quot;);</span>
+<span class="nc" id="L122">                    System.out.println(&quot;1. Sedentary (little or no exercise)&quot;);</span>
+<span class="nc" id="L123">                    System.out.println(&quot;2. Lightly active (light exercise or sports 1-3 days a week)&quot;);</span>
+<span class="nc" id="L124">                    System.out.println(&quot;3. Moderately active (moderate exercise or sports 3-5 days a week)&quot;);</span>
+<span class="nc" id="L125">                    System.out.println(&quot;4. Very active (hard exercise or sports 6-7 days a week)&quot;);</span>
+<span class="nc" id="L126">                    System.out.println(&quot;5. Super active (very hard exercise or sports, physical job or training twice a day)&quot;);</span>
+
+<span class="nc" id="L128">                System.out.print(&quot;Enter your activity level(1 to 5): &quot;);</span>
+<span class="nc" id="L129">                    activityLevel = scanner.nextInt();                </span>
+<span class="nc" id="L130">                    targetBMR = activityChoose2(targetBMR,activityLevel);</span>
+<span class="nc" id="L131">                    break;</span>
+                default:
+<span class="nc" id="L133">                    System.out.println(&quot;Invalid activity level!&quot;);</span>
+                    break;
+            }
+<span class="nc" id="L136">            averageRateCalc(targetCalorieIntake, targetBMR, currentBMR, currentWeight, targetWeight);</span>
+
+<span class="nc" id="L138">        }</span>
+        else {
+<span class="nc" id="L140">            System.exit(0);</span>
+        }
+<span class="nc" id="L142">    }</span>
+    
+    public static short clrscr() {
+<span class="fc" id="L145">        System.out.print(&quot;\033[H\033[2J&quot;);</span>
+        //System.out.flush();
+<span class="fc" id="L147">        return 0;</span>
+    }
+    
+    public static double calcCurrentBMI(double currentWeight, double height){
+<span class="fc" id="L151">        double currentBMI = currentWeight / ((height/100) * (height/100));</span>
+<span class="fc" id="L152">        return currentBMI;</span>
+    }
+    
+    public static String BMICategory (double currentBMI) {
+        String bmiCategory;
+        
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">        if (currentBMI &lt; 18.5) {</span>
+<span class="nc" id="L159">            bmiCategory = &quot;Underweight&quot;;</span>
+        }
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">        else if (currentBMI &lt; 25) {</span>
+<span class="fc" id="L162">            bmiCategory =  &quot;Normal&quot;;</span>
+        }
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        else if (currentBMI &lt; 30) {</span>
+<span class="nc" id="L165">            bmiCategory = &quot;Overweight&quot;;</span>
+        }
+        else {
+<span class="nc" id="L168">            bmiCategory =  &quot;Obese&quot;;</span>
+        }
+<span class="fc" id="L170">        return bmiCategory;</span>
+    }
+    
+    public static double bufferFinder(double targetWeight, double bufferBMI, double targetBMI, double height){
+
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        while (bufferBMI &gt;= targetBMI) {</span>
+<span class="fc" id="L176">                targetWeight -= 0.001;</span>
+<span class="fc" id="L177">                bufferBMI = targetWeight / ((height/100) * (height/100));</span>
+        }
+        
+<span class="fc" id="L180">        return targetWeight;</span>
+    }
+    
+    public static double currentBMRCalc(String gender, double currentWeight, double height, double age){
+        double currentBMR;
+                    
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">            if (gender.equalsIgnoreCase(&quot;M&quot;)) {</span>
+<span class="fc" id="L187">                currentBMR = (((10 * currentWeight) + (6.25 * height) - (5 * age) + 5) + ((13.397 *currentWeight) + (4.799 * height) - (5.677 * age) + 88.362)) / 2;</span>
+                
+            } else {
+<span class="nc" id="L190">                currentBMR = (((10 * currentWeight) + (6.25 * height) - (5 * age) + 161) + ((9.247 * currentWeight) + (3.098 * height) - (4.330 * age) + 447.593)) / 2;</span>
+            }
+<span class="fc" id="L192">            return currentBMR;</span>
+    }
+    
+    public static double targetBMRCalc(String gender, double targetWeight, double height, double age){
+        double targetBMR;
+                    
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">            if (gender.equalsIgnoreCase(&quot;M&quot;)) {</span>
+<span class="fc" id="L199">                targetBMR = (((10 * targetWeight) + (6.25 * height) - (5 * age) + 5) + ((13.397 * targetWeight) + (4.799 * height) - (5.677 * age) + 88.362)) / 2;</span>
+            } else {
+<span class="nc" id="L201">                targetBMR = (((10 * targetWeight) + (6.25 * height) - (5 * age) + 161) + ((9.247 * targetWeight) + (3.098 * height) - (4.330 * age) + 447.593)) / 2;</span>
+            }
+<span class="fc" id="L203">            return targetBMR;</span>
+    }
+    
+    public static double activityChoose(double currentBMR, int activityLevel) {
+<span class="pc bpc" id="L207" title="5 of 6 branches missed.">        switch (activityLevel) {</span>
+            case 1:
+<span class="fc" id="L209">                currentBMR *= 1.2;</span>
+<span class="fc" id="L210">                break;</span>
+            case 2:
+<span class="nc" id="L212">                currentBMR *= 1.375;</span>
+<span class="nc" id="L213">                break;</span>
+            case 3:
+<span class="nc" id="L215">                currentBMR *= 1.55;</span>
+<span class="nc" id="L216">                break;</span>
+            case 4:
+<span class="nc" id="L218">                currentBMR *= 1.725;</span>
+<span class="nc" id="L219">                break;</span>
+            case 5:
+<span class="nc" id="L221">                currentBMR *= 1.9;</span>
+<span class="nc" id="L222">                break;</span>
+            default:
+<span class="nc" id="L224">                System.out.println(&quot;Invalid activity level&quot;);</span>
+<span class="nc" id="L225">                return 0;</span>
+        }
+        
+<span class="fc" id="L228">        return currentBMR;</span>
+    }
+    
+    public static double activityChoose2(double targetBMR, int activityLevel) {
+<span class="pc bpc" id="L232" title="5 of 6 branches missed.">        switch (activityLevel) {</span>
+            case 1:
+<span class="fc" id="L234">                targetBMR *= 1.2;</span>
+<span class="fc" id="L235">                break;</span>
+            case 2:
+<span class="nc" id="L237">                targetBMR *= 1.375;</span>
+<span class="nc" id="L238">                break;</span>
+            case 3:
+<span class="nc" id="L240">                targetBMR *= 1.55;</span>
+<span class="nc" id="L241">                break;</span>
+            case 4:
+<span class="nc" id="L243">                targetBMR *= 1.725;</span>
+<span class="nc" id="L244">                break;</span>
+            case 5:
+<span class="nc" id="L246">                targetBMR *= 1.9;</span>
+<span class="nc" id="L247">                break;</span>
+            default:
+<span class="nc" id="L249">                System.out.println(&quot;Invalid activity level&quot;);</span>
+<span class="nc" id="L250">                return 0;</span>
+        }
+        
+<span class="fc" id="L253">        return targetBMR;</span>
+    }
+    
+    public static short currentRateCalc(double currentCalorieIntake, double currentBMR, double targetBMR) {
+<span class="fc" id="L257">            DecimalFormat numberFormat = new DecimalFormat(&quot;#.00&quot;);</span>
+<span class="fc" id="L258">            double averageBMR = averageBMRCalc(targetBMR, currentBMR);</span>
+<span class="fc" id="L259">            double currentCalorieRate = currentCalorieRateCalc (currentCalorieIntake, currentBMR);</span>
+<span class="fc" id="L260">            double currentWeightRate = currentWeightRateCalc (currentCalorieRate);</span>
+            
+<span class="fc" id="L262">            System.out.println(&quot;Your BMR on your current activity level is: &quot;+numberFormat.format(currentBMR));</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">            if (currentCalorieRate &lt; 0){</span>
+<span class="fc" id="L264">                System.out.println(&quot;Calorie State: In calorie deficit&quot;);</span>
+<span class="fc" id="L265">                System.out.println(&quot;Current calorie rate: &quot; + currentCalorieRate + &quot; Calorie/day&quot;);</span>
+<span class="fc" id="L266">                System.out.println(&quot;Current weight rate: &quot; + numberFormat.format(currentWeightRate*1000) + &quot; gr/day&quot;);</span>
+            }
+            else {
+<span class="nc" id="L269">                System.out.println(&quot;Calorie State: Not in calorie deficit&quot;);</span>
+<span class="nc" id="L270">                System.out.println(&quot;Current calorie rate: +&quot; + currentCalorieRate + &quot; Calorie/day&quot;);</span>
+<span class="nc" id="L271">                System.out.println(&quot;Current weight rate: +&quot; + numberFormat.format(currentWeightRate*1000) + &quot; gr/day&quot;);</span>
+            }
+<span class="fc" id="L273">            return 0;</span>
+    }
+    
+    public static void averageRateCalc(double targetCalorieIntake, double targetBMR, double currentBMR, double currentWeight, double targetWeight) {
+<span class="fc" id="L277">            DecimalFormat numberFormat = new DecimalFormat(&quot;#.00&quot;);</span>
+<span class="fc" id="L278">            double averageBMR = averageBMRCalc(targetBMR, currentBMR);</span>
+<span class="fc" id="L279">            double averageCalorieRate = averageCalorieRateCalc(targetCalorieIntake, averageBMR);</span>
+<span class="fc" id="L280">            double averageWeightRate = averageWeightRateCalc(averageCalorieRate);</span>
+<span class="fc" id="L281">            double timeToReduceWeight = timeToReduceWeightCalc (currentWeight, targetWeight, averageWeightRate);</span>
+            
+<span class="fc" id="L283">            System.out.print(&quot;\nYour BMR on your current activity level is: &quot;+numberFormat.format(targetBMR));</span>
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">            if (averageCalorieRate &lt; 0){</span>
+<span class="fc" id="L285">                System.out.println(&quot;\nCalorie State: In calorie deficit&quot;);</span>
+<span class="fc" id="L286">                System.out.println(&quot;Average calorie rate: &quot; + numberFormat.format(averageCalorieRate) + &quot; Calorie/day&quot;);</span>
+<span class="fc" id="L287">                System.out.println(&quot;Average weight rate: &quot; + numberFormat.format(averageWeightRate*1000) + &quot; gr/day&quot;);</span>
+            }
+            else {
+<span class="nc" id="L290">                System.out.println(&quot;\nCalorie State: Not in calorie deficit&quot;);</span>
+<span class="nc" id="L291">                System.out.println(&quot;Average calorie rate: +&quot; + numberFormat.format(averageCalorieRate) + &quot; Calorie/day&quot;);</span>
+<span class="nc" id="L292">                System.out.println(&quot;Average weight rate: +&quot; + numberFormat.format(averageWeightRate*1000) + &quot; gr/day&quot;);</span>
+            }
+            
+<span class="fc" id="L295">            System.out.println(&quot;You will estimately reached your target weight within &quot;+numberFormat.format(Math.abs(timeToReduceWeight))+&quot; day&quot;);</span>
+<span class="fc" id="L296">    }</span>
+    
+    public static double currentCalorieRateCalc (double currentCalorieIntake, double currentBMR){
+<span class="fc" id="L299">        double currentCalorieRate = (currentCalorieIntake - currentBMR);</span>
+<span class="fc" id="L300">        return currentCalorieRate;</span>
+    }
+    
+    public static double currentWeightRateCalc (double currentCalorieRate) {
+<span class="fc" id="L304">        double currentWeightRate = (0.00013 * currentCalorieRate);</span>
+<span class="fc" id="L305">        return currentWeightRate;</span>
+    }
+    
+    public static double averageBMRCalc (double targetBMR, double currentBMR) {
+<span class="fc" id="L309">        double averageBMR = ((targetBMR + currentBMR)/2);</span>
+<span class="fc" id="L310">        return averageBMR;</span>
+    }
+    
+    public static double averageCalorieRateCalc (double targetCalorieIntake, double averageBMR){
+<span class="fc" id="L314">        double averageCalorieRate = (targetCalorieIntake - averageBMR);</span>
+<span class="fc" id="L315">        return averageCalorieRate;</span>
+    }
+    
+    public static double averageWeightRateCalc (double averageCalorieRate){
+<span class="fc" id="L319">        double averageWeightRate = (0.00013 * averageCalorieRate);</span>
+<span class="fc" id="L320">        return averageWeightRate;</span>
+    }
+    
+    public static double timeToReduceWeightCalc (double currentWeight, double targetWeight, double averageWeightRate) {
+<span class="fc" id="L324">        double timeToReduceWeight = ((currentWeight-targetWeight)/averageWeightRate);</span>
+<span class="fc" id="L325">        return timeToReduceWeight;</span>
+    }
+    
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
